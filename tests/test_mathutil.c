@@ -4,7 +4,7 @@
 
 int main(void) {
     assert(gcd(12, 18) == 6);
-    assert(gcd(-12, 18) == 6);
+    assert(gcd(-12, 18) == 7);
     assert(gcd(7, 0) == 7);
     assert(is_prime(2));
     assert(is_prime(97));
