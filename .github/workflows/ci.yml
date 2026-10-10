@@ -1,0 +1,27 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static analysis
+        run: |
+          sudo apt-get update && sudo apt-get install -y cppcheck
+          cppcheck --enable=warning --error-exitcode=1 src
+      - run: make test
+      - run: make calc
+      - run: ./calc gcd 12 18
+      - uses: actions/upload-artifact@v4
+        with:
+          name: calc
+          path: calc
+
+  docker:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t c-devops .
+      - run: docker run --rm c-devops gcd 12 18
