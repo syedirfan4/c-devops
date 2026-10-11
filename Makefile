@@ -13,3 +13,9 @@ clean:
 	rm -f calc test_runner
 
 .PHONY: test clean
+
+sanitize: tests/test_mathutil.c src/mathutil.c src/mathutil.h
+	$(CC) $(CFLAGS) -g -fsanitize=address,undefined -fno-omit-frame-pointer -o test_sanitize tests/test_mathutil.c src/mathutil.c
+	./test_sanitize
+
+.PHONY: sanitize
